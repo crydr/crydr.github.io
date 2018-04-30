@@ -8,7 +8,15 @@
 
     <input type="text" name="text">
     <a href="#" class="say">Say It!</a>
-    <audio src="" class="speech" hidden></audio>
+    <audio autoplay id="bigAudio">
+        <source src="" class = "speech" hidden>
+    </audio>
+    <br>
+    <input id="slider", type="range" min="0" max="1" step="0.05" value="1">
+    <br>
+    <select id="selectLang">
+        <option>Select a language</option>
+    </select>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -18,12 +26,12 @@
                 e.preventDefault();
                 var text = $('input[name="text"]').val();
                 text = encodeURIComponent(text);
-                var url = "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=" + text + "&tl=en&client=tw-ob"
+                var lang = "en"
+                var url = "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=" + text + "&tl=" + lang + "&client=tw-ob"
+                $('audio').prop("volume", document.getElementById('slider').value);
                 $('audio').attr('src', url).get(0).play();
             });
         });
     </script>
 </body>
 </html>
-
-<audio src="https://translate.google.com.vn/translate_tts?ie=UTF-8&q=ANYTHING_TEXT&tl=en&client=tw-ob" controls></audio>
