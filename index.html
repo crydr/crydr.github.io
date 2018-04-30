@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<style>
+body{
+	text-align: center;
+}
+</style>
+
+<h2>Say it to me!</h2>
+
+<input type="text" id="inputText" value="Awesome">
+<button onclick="sayFunction()">Say</button>
+<p><font size="4">Volume</font></p>
+<input id="vol-control" type="range" min="0" max="1" step="0.1" value ="1"></input>
+<p><font size="4"></font>Pitch</font></p>
+<input id="pitch-control" type="range" min="0" max="2" step="0.25" value ="1"></input>
+<p><font size="4">Rate</font></p>
+<input id="rate-control" type="range" min="0" max="10" step="1" value ="1"></input>
+<br><br>
+<select id="selectVoice"><option>Choose a voice</option></select>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+var synth = window.speechSynthesis;
+
+var select = document.getElementById("selectVoice");
+var voices = ["Microsoft Hazel Desktop - English (Great Britain)","Microsoft Zira Desktop - English (United States)","Google Deutsch","Google US English","Google UK English Female","Google UK English Male","Google español","Google español de Estados Unidos","Google français","Google हिन्दी","Google Bahasa Indonesia","Google italiano","Google 日本語","Google 한국의","Google Nederlands","Google polski","Google português do Brasil","Google русский","Google 普通话（中国大陆）","Google 粤語（香港）","Google 國語（臺灣）"]
+
+addOption = function(selectbox, text, value) {
+    var optn = document.createElement("OPTION");
+    optn.text = text;
+    optn.value = value;
+    selectbox.options.add(optn);
+}
+
+if (select) {
+    for (var i=0; i < voices.length;++i){    
+        addOption(select, voices[i], voices[i]);
+    }
+}
+
+function speak(message, voiceIndex, volume, pitch, rate) {
+  var msg = new SpeechSynthesisUtterance(message)
+  var voices = window.speechSynthesis.getVoices()
+  msg.voice = voices[voiceIndex -1]
+	msg.volume = volume
+	msg.pitch = pitch
+	msg.rate = rate
+  speechSynthesis.speak(msg)
+}
+
+function sayFunction() {
+	msg = document.getElementById("inputText").value
+	volume = document.getElementById("vol-control").value
+	pitch = document.getElementById("pitch-control").value
+	rate = document.getElementById("rate-control").value
+	var e = document.getElementById("selectVoice")
+	speak(msg, e.selectedIndex, volume, pitch, rate)
+}
+</script>
